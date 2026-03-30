@@ -9,12 +9,16 @@ pub type Tui = Terminal<CrosstermBackend<Stdout>>;
 
 /// Initialize the terminal: enable raw mode and enter alternate screen.
 pub fn init() -> Result<Tui> {
-    todo!()
+    crossterm::terminal::enable_raw_mode()?;
+    crossterm::execute!(std::io::stdout(), crossterm::terminal::EnterAlternateScreen)?;
+    Ok(Terminal::new(CrosstermBackend::new(std::io::stdout()))?)
 }
 
 /// Restore the terminal: disable raw mode and leave alternate screen.
 pub fn restore() -> Result<()> {
-    todo!()
+    crossterm::terminal::disable_raw_mode()?;
+    crossterm::execute!(std::io::stdout(), crossterm::terminal::LeaveAlternateScreen)?;
+    Ok(())
 }
 
 /// Read the next keyboard or other event from the terminal.
